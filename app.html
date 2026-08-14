@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EcoNexa — Smart Waste Management Platform Dashboard">
+  <title>EcoNexa — Dashboard</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <!-- EcoNexa CSS -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/animations.css">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <style>
+    /* Leaflet popup override */
+    .leaflet-popup-content-wrapper {
+      border-radius: 12px !important;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15) !important;
+      border: 1px solid #e2e8e0 !important;
+    }
+    .leaflet-popup-content {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    .leaflet-popup-tip-container { display: none; }
+
+    /* App shell tweak */
+    #main-content {
+      min-height: 100vh;
+      background: var(--color-bg);
+    }
+
+    /* Leaflet z-index fix */
+    .leaflet-pane { z-index: 10 !important; }
+    .leaflet-top, .leaflet-bottom { z-index: 20 !important; }
+  </style>
+</head>
+<body>
+
+  <!-- Demo Banner -->
+  <div class="demo-banner">
+    🎯 EcoNexa — Smart India Hackathon Prototype · Demo Mode · All data is simulated
+  </div>
+
+  <!-- App Shell -->
+  <div class="app-shell" id="app-shell">
+    <!-- Sidebar rendered by JS -->
+    <div id="sidebar-mount"></div>
+
+    <!-- Main Content -->
+    <main class="main-content" id="main-content">
+      <!-- Top Nav rendered by JS -->
+      <div id="topnav-mount"></div>
+
+      <!-- Page Content -->
+      <div id="page-content" class="page-content" style="transition: opacity 0.15s ease, transform 0.15s ease">
+        <!-- Loading state -->
+        <div class="loading-screen">
+          <div class="spinner spinner--lg"></div>
+          <p>Loading EcoNexa...</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- External Libraries -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+
+  <!-- EcoNexa Core -->
+  <script src="js/data/demo-data.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/charts-helper.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/components/sidebar.js"></script>
+  <script src="js/components/topnav.js"></script>
+
+  <!-- Views — Citizen -->
+  <script src="js/views/citizen-dashboard.js"></script>
+  <script src="js/views/citizen-waste-input.js"></script>
+  <script src="js/views/citizen-education.js"></script>
+  <script src="js/views/citizen-whatgoeswhere.js"></script>
+  <script src="js/views/citizen-map.js"></script>
+  <script src="js/views/citizen-complaints.js"></script>
+  <script src="js/views/citizen-nearby.js"></script>
+
+  <!-- Views — Worker -->
+  <script src="js/views/worker-dashboard.js"></script>
+  <script src="js/views/worker-households.js"></script>
+  <script src="js/views/worker-route.js"></script>
+
+  <!-- Views — Admin -->
+  <script src="js/views/admin-dashboard.js"></script>
+  <script src="js/views/admin-wards.js"></script>
+  <script src="js/views/admin-analytics.js"></script>
+  <script src="js/views/admin-complaints.js"></script>
+  <script src="js/views/admin-facilities.js"></script>
+  <script src="js/views/admin-workers.js"></script>
+
+  <!-- Views — Authority -->
+  <script src="js/views/authority-dashboard.js"></script>
+
+  <script>
+    // ============================================================
+    // EcoNexa App Bootstrap
+    // ============================================================
+
+    // 1. Auth check
+    const currentUser = EcoAuth.requireAuth();
+    if (!currentUser) throw new Error('Not authenticated');
+
+    // 2. Mount sidebar
+    document.getElementById('sidebar-mount').innerHTML = buildSidebar(currentUser);
+
+    // 3. Mount topnav
+    document.getElementById('topnav-mount').innerHTML = buildTopNav(currentUser);
+
+    // 4. Handle sidebar collapsed state
+    const wasCollapsed = localStorage.getItem('econexa_sidebar_collapsed') === 'true';
+    if (wasCollapsed) {
+      document.getElementById('app-sidebar')?.classList.add('sidebar--collapsed');
+      document.getElementById('app-topnav')?.classList.add('topnav--collapsed');
+      document.getElementById('main-content')?.classList.add('main-content--collapsed');
+    }
+
+    // 5. Register routes by role
+    const pageContent = document.getElementById('page-content');
+
+    function wrapView(fn) {
+      return (container) => {
+        container.className = 'page-content view-enter';
+        fn(container);
+      };
+    }
+
+    // Citizen routes
+    if (currentUser.role === 'citizen') {
+      EcoRouter.register('#citizen-dashboard',     wrapView(renderCitizenDashboard));
+      EcoRouter.register('#citizen-waste',         wrapView(renderCitizenWasteInput));
+      EcoRouter.register('#citizen-waste-input',   wrapView(renderCitizenWasteInput));
+      EcoRouter.register('#citizen-education',     wrapView(renderCitizenEducation));
+      EcoRouter.register('#citizen-whatgoes',      wrapView(renderCitizenWhatGoesWhere));
+      EcoRouter.register('#citizen-whatgoeswhere', wrapView(renderCitizenWhatGoesWhere));
+      EcoRouter.register('#citizen-map',           wrapView(renderCitizenMap));
+      EcoRouter.register('#citizen-complaints',    wrapView(renderCitizenComplaints));
+      EcoRouter.register('#citizen-nearby',        wrapView(renderCitizenNearby));
+      EcoRouter.register('#citizen-notifications', wrapView(renderNotifications));
+    }
+
+    // Worker routes
+    if (currentUser.role === 'worker') {
+      EcoRouter.register('#worker-dashboard',      wrapView(renderWorkerDashboard));
+      EcoRouter.register('#worker-households',     wrapView(renderWorkerHouseholds));
+      EcoRouter.register('#worker-route',          wrapView(renderWorkerRoute));
+      EcoRouter.register('#worker-notifications',  wrapView(renderNotifications));
+    }
+
+    // Admin routes
+    if (currentUser.role === 'admin') {
+      EcoRouter.register('#admin-dashboard',       wrapView(renderAdminDashboard));
+      EcoRouter.register('#admin-wards',           wrapView(renderAdminWards));
+      EcoRouter.register('#admin-ward-detail',     wrapView(renderAdminWardDetail));
+      EcoRouter.register('#admin-analytics',       wrapView(renderAdminAnalytics));
+      EcoRouter.register('#admin-complaints',      wrapView(renderAdminComplaints));
+      EcoRouter.register('#admin-facilities',      wrapView(renderAdminFacilities));
+      EcoRouter.register('#admin-workers',         wrapView(renderAdminWorkers));
+      EcoRouter.register('#admin-map',             wrapView(renderCitizenMap)); // reuse map
+      EcoRouter.register('#admin-notifications',   wrapView(renderNotifications));
+    }
+
+    // Authority routes
+    if (currentUser.role === 'authority') {
+      EcoRouter.register('#authority-dashboard',      wrapView(renderAuthorityDashboard));
+      EcoRouter.register('#authority-map',            wrapView(renderCitizenMap));
+      EcoRouter.register('#authority-analytics',      wrapView(renderAdminAnalytics));
+      EcoRouter.register('#authority-reports',        wrapView(renderAdminAnalytics));
+      EcoRouter.register('#authority-notifications',  wrapView(renderNotifications));
+    }
+
+    // Cross-role accessible routes
+    EcoRouter.register('#citizen-education-global', wrapView(renderCitizenEducation));
+
+    // Custom event listener for backward/component compatibility
+    window.addEventListener('navigate', (e) => {
+      if (e.detail) {
+        const targetHash = e.detail.startsWith('#') ? e.detail : '#' + e.detail;
+        EcoRouter.navigate(targetHash);
+      }
+    });
+
+    // 6. Initialize router
+    EcoRouter.init(pageContent);
+
+    // 7. Global keyboard shortcut — ESC to close modals
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') EcoUtils.closeModal();
+    });
+
+    // 8. Handle 404
+    EcoRouter.register('#404', (container) => {
+      container.innerHTML = `
+        <div class="empty-state" style="min-height:60vh">
+          <div class="empty-state__icon" style="font-size:3rem;width:80px;height:80px">😕</div>
+          <h2 class="empty-state__title">Page Not Found</h2>
+          <p class="empty-state__body">The page you're looking for doesn't exist or you don't have access.</p>
+          <button class="btn btn-primary mt-4" onclick="EcoRouter.navigate('${EcoAuth.getDashboardForRole(currentUser.role)}')">
+            Go to Dashboard
+          </button>
+        </div>`;
+    });
+
+    // 9. Periodically refresh notification badge (simulated)
+    setInterval(() => {
+      const badge = document.getElementById('notif-badge');
+      // (in production, this would poll for new notifications)
+    }, 60000);
+
+    console.log('EcoNexa loaded ✓ | User:', currentUser.name, '| Role:', currentUser.role);
+  </script>
+</body>
+</html>

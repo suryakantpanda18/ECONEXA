@@ -1,0 +1,23 @@
+{
+  "name": "econexa",
+  "version": "1.0.0",
+  "description": "Smart Community Waste Management & Urban Cleanliness Platform",
+  "homepage": "https://github.com",
+  "main": "index.html",
+  "scripts": {
+    "dev": "python serve.py",
+    "start": "python serve.py"
+  },
+  "keywords": [
+    "smart-city",
+    "waste-management",
+    "govtech",
+    "sustainability",
+    "smart-india-hackathon",
+    "urban-cleanliness",
+    "leaflet",
+    "chartjs"
+  ],
+  "author": "EcoNexa Team",
+  "license": "MIT"
+}

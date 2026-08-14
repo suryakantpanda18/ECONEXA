@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sign in to EcoNexa — Smart Waste Management Platform">
+  <title>Login — EcoNexa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <script>
+    const theme = localStorage.getItem('econexa_theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  </script>
+</head>
+<body>
+  <div class="login-page">
+    <!-- Visual Side -->
+    <div class="login-visual">
+      <div class="login-visual__content">
+        <a href="index.html" style="display:inline-flex;align-items:center;gap:10px;text-decoration:none;margin-bottom:40px">
+          <svg width="44" height="44" viewBox="0 0 40 40" fill="none">
+            <rect width="40" height="40" rx="10" fill="rgba(255,255,255,0.2)"/>
+            <path d="M20 8C14 8 9 13 9 19c0 4 2 7.5 5 9.5" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <path d="M20 8c6 0 11 5 11 11 0 4-2 7.5-5 9.5" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round"/>
+            <path d="M15 19l5 5 5-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="20" cy="14" r="3" fill="rgba(255,255,255,0.9)"/>
+            <path d="M20 17v10" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:white;letter-spacing:-0.02em">EcoNexa</span>
+        </a>
+
+        <h2 class="login-visual__title">Smart Waste.<br>Cleaner Cities.</h2>
+        <p class="login-visual__desc">One connected platform for citizens, workers, administrators and authorities to manage the complete waste lifecycle.</p>
+
+        <div class="login-visual__features">
+          <div class="login-visual__feature">
+            <div class="login-visual__feature-icon">📊</div>
+            <span>Real-time ward & municipality analytics</span>
+          </div>
+          <div class="login-visual__feature">
+            <div class="login-visual__feature-icon">🗺️</div>
+            <span>Interactive waste facility map</span>
+          </div>
+          <div class="login-visual__feature">
+            <div class="login-visual__feature-icon">📝</div>
+            <span>End-to-end complaint management</span>
+          </div>
+          <div class="login-visual__feature">
+            <div class="login-visual__feature-icon">♻️</div>
+            <span>Waste education & disposal guidance</span>
+          </div>
+        </div>
+
+        <div style="margin-top:48px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.15)">
+          <p style="font-size:0.8125rem;color:rgba(255,255,255,0.5)">
+            🎯 Smart India Hackathon Prototype<br>
+            Demo mode — all data is simulated
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Login Panel -->
+    <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;padding:48px 24px;background:white;min-height:100vh">
+      <div style="width:100%;max-width:420px">
+        <!-- Mobile logo -->
+        <a href="index.html" style="display:none;align-items:center;gap:10px;text-decoration:none;margin-bottom:32px" class="mobile-logo">
+          <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+            <rect width="40" height="40" rx="10" fill="#16a34a"/>
+            <path d="M20 8C14 8 9 13 9 19c0 4 2 7.5 5 9.5" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <path d="M20 8c6 0 11 5 11 11 0 4-2 7.5-5 9.5" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round"/>
+            <path d="M15 19l5 5 5-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="20" cy="14" r="3" fill="rgba(255,255,255,0.9)"/>
+            <path d="M20 17v10" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span style="font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:#1a2e1a">EcoNexa</span>
+        </a>
+
+        <h1 style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:800;color:#1a2e1a;letter-spacing:-0.02em;margin-bottom:6px">Welcome back</h1>
+        <p style="color:#5a7a5a;font-size:0.9375rem;margin-bottom:32px">Sign in to your EcoNexa account</p>
+
+        <!-- Role Selector -->
+        <div style="margin-bottom:24px">
+          <p style="font-size:0.8125rem;font-weight:600;color:#1a2e1a;margin-bottom:10px">Select Your Role</p>
+          <div class="role-selector" id="role-selector">
+            <button class="role-btn active" data-role="citizen" onclick="selectRole('citizen')">
+              <span class="role-btn__emoji">👤</span>
+              <span class="role-btn__name">Citizen</span>
+              <span class="role-btn__desc">Personal portal</span>
+            </button>
+            <button class="role-btn" data-role="worker" onclick="selectRole('worker')">
+              <span class="role-btn__emoji">🚛</span>
+              <span class="role-btn__name">Worker</span>
+              <span class="role-btn__desc">Field collection</span>
+            </button>
+            <button class="role-btn" data-role="admin" onclick="selectRole('admin')">
+              <span class="role-btn__emoji">🏛️</span>
+              <span class="role-btn__name">Admin</span>
+              <span class="role-btn__desc">Municipality</span>
+            </button>
+            <button class="role-btn" data-role="authority" onclick="selectRole('authority')">
+              <span class="role-btn__emoji">🌐</span>
+              <span class="role-btn__name">Authority</span>
+              <span class="role-btn__desc">State / PCB</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Demo Credentials -->
+        <div class="demo-creds" id="demo-creds">
+          <strong>🔑 Demo Credentials</strong>
+          <span id="demo-email-text">citizen@econexa.in</span> / <strong>demo123</strong>
+        </div>
+
+        <!-- Login Form -->
+        <form id="login-form" onsubmit="handleLogin(event)">
+          <div class="form-group" style="margin-bottom:16px">
+            <label class="form-label" for="email">Email Address</label>
+            <input class="form-input" type="email" id="email" name="email" placeholder="your@email.com" value="citizen@econexa.in" required autocomplete="email">
+            <div class="form-error hidden" id="email-error"></div>
+          </div>
+
+          <div class="form-group" style="margin-bottom:24px">
+            <label class="form-label" for="password">Password</label>
+            <div style="position:relative">
+              <input class="form-input" type="password" id="password" name="password" placeholder="••••••••" value="demo123" required autocomplete="current-password">
+              <button type="button" onclick="togglePw()" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#7a9a7a;padding:4px">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <div class="form-error hidden" id="pw-error"></div>
+          </div>
+
+          <div class="form-error hidden" id="login-error" style="margin-bottom:16px;padding:12px;background:var(--red-50);border:1px solid var(--red-100);border-radius:var(--radius);font-size:0.9rem"></div>
+
+          <button type="submit" class="btn btn-primary btn-full btn-lg" id="login-btn">
+            Sign In to EcoNexa
+          </button>
+        </form>
+
+        <div class="divider--text" style="margin:24px 0;display:flex">
+          <span style="color:#94a394;font-size:0.8125rem">or quickly sign in as</span>
+        </div>
+
+        <!-- Quick login buttons -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <button class="btn btn-secondary btn-sm" onclick="quickLogin('citizen@econexa.in')">👤 Citizen Demo</button>
+          <button class="btn btn-secondary btn-sm" onclick="quickLogin('worker@econexa.in')">🚛 Worker Demo</button>
+          <button class="btn btn-secondary btn-sm" onclick="quickLogin('admin@econexa.in')">🏛️ Admin Demo</button>
+          <button class="btn btn-secondary btn-sm" onclick="quickLogin('authority@econexa.in')">🌐 Authority Demo</button>
+        </div>
+
+        <p style="text-align:center;margin-top:24px;font-size:0.8125rem;color:#7a9a7a">
+          <a href="index.html" style="color:var(--color-primary);font-weight:500">← Back to home</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data/demo-data.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // Check if already logged in
+    const existing = EcoAuth.getCurrentUser();
+    if (existing) window.location.href = 'app.html';
+
+    // Role email map
+    const roleEmails = {
+      citizen: 'citizen@econexa.in',
+      worker: 'worker@econexa.in',
+      admin: 'admin@econexa.in',
+      authority: 'authority@econexa.in'
+    };
+
+    let selectedRole = 'citizen';
+
+    // Handle URL param
+    const urlRole = new URLSearchParams(window.location.search).get('role');
+    if (urlRole && roleEmails[urlRole]) {
+      setTimeout(() => selectRole(urlRole), 100);
+    }
+
+    function selectRole(role) {
+      selectedRole = role;
+      document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+      document.querySelector(`[data-role="${role}"]`)?.classList.add('active');
+      const email = roleEmails[role] || 'citizen@econexa.in';
+      document.getElementById('email').value = email;
+      document.getElementById('demo-email-text').textContent = email;
+    }
+
+    function quickLogin(email) {
+      document.getElementById('email').value = email;
+      document.getElementById('password').value = 'demo123';
+      // Sync role selector
+      const user = EcoData.users.find(u => u.email === email);
+      if (user) selectRole(user.role);
+      handleLogin(null, email);
+    }
+
+    function handleLogin(e, overrideEmail) {
+      if (e) e.preventDefault();
+      const email = overrideEmail || document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      // Hide errors
+      document.getElementById('login-error').classList.add('hidden');
+
+      const btn = document.getElementById('login-btn');
+      btn.classList.add('btn--loading');
+      btn.textContent = '';
+
+      setTimeout(() => {
+        const result = EcoAuth.login(email, password);
+        btn.classList.remove('btn--loading');
+        btn.textContent = 'Sign In to EcoNexa';
+
+        if (!result.success) {
+          const errEl = document.getElementById('login-error');
+          errEl.textContent = result.error;
+          errEl.classList.remove('hidden');
+          return;
+        }
+
+        // Redirect to app
+        window.location.href = 'app.html';
+      }, 600);
+    }
+
+    function togglePw() {
+      const pw = document.getElementById('password');
+      pw.type = pw.type === 'password' ? 'text' : 'password';
+    }
+  </script>
+</body>
+</html>
