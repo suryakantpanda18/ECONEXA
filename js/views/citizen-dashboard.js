@@ -69,13 +69,19 @@ function renderCitizenDashboard(container) {
     </div>
 
     <div class="grid grid-cols-12 gap-6 mb-6">
-       <div class="card col-span-8 appear">
-        <div class="card__header p-4 border-b"><h2 class="card__title text-lg font-bold">Quick Actions</h2></div>
-        <div class="card__body p-4 flex gap-4 flex-wrap">
-          <button class="btn btn-primary px-4 py-2 rounded bg-green-600 text-white" onclick="window.dispatchEvent(new CustomEvent('navigate', {detail:'citizen-waste-input'}))">Log Waste</button>
-          <button class="btn btn-secondary px-4 py-2 rounded bg-blue-600 text-white" onclick="window.dispatchEvent(new CustomEvent('navigate', {detail:'citizen-complaints'}))">Report Issue</button>
-          <button class="btn btn-outline px-4 py-2 rounded border border-gray-300" onclick="window.dispatchEvent(new CustomEvent('navigate', {detail:'citizen-nearby'}))">Find Nearby</button>
-          <button class="btn btn-ghost px-4 py-2 rounded text-green-700" onclick="window.dispatchEvent(new CustomEvent('navigate', {detail:'citizen-education'}))">Learn About Waste</button>
+       <div class="card col-span-8 appear" style="border-left: 4px solid var(--color-primary);">
+        <div class="card__header p-4 border-b flex justify-between items-center">
+          <h2 class="card__title text-lg font-bold">Quick Actions & AI Tools</h2>
+          <span class="badge badge-green text-xs font-bold uppercase">✨ AI Powered</span>
+        </div>
+        <div class="card__body p-4 flex gap-3 flex-wrap">
+          <button class="btn btn-primary px-4 py-2 rounded bg-green-600 text-white font-semibold flex items-center gap-1.5 shadow-sm" onclick="EcoRouter.navigate('#citizen-ai-scanner')">
+            ✨ AI Waste Scanner
+          </button>
+          <button class="btn btn-secondary px-4 py-2 rounded bg-blue-600 text-white font-semibold" onclick="EcoRouter.navigate('#citizen-waste')">Log Daily Waste</button>
+          <button class="btn btn-outline px-4 py-2 rounded border border-gray-300" onclick="EcoRouter.navigate('#citizen-complaints')">Report Issue (AI Triaged)</button>
+          <button class="btn btn-outline px-4 py-2 rounded border border-gray-300" onclick="EcoRouter.navigate('#citizen-map')">EcoMap</button>
+          <button class="btn btn-ghost px-4 py-2 rounded text-green-700 font-semibold" onclick="EcoRouter.navigate('#citizen-whatgoes')">What Goes Where?</button>
         </div>
       </div>
       <div class="card col-span-4 appear">

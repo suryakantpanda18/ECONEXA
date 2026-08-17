@@ -210,17 +210,71 @@ const EcoData = {
   ],
 
   // ============================================================
-  // Complaints
+  // Complaints (with AI NLP Classification & Priority Metadata)
   // ============================================================
   complaints: [
-    { id: 'C001', citizenId: 'U001', ward: 'W01', category: 'missed_collection', title: 'Missed Collection - Road No. 5', desc: 'Garbage collection was not done in our street for the past 2 days. The bin is overflowing.', status: 'resolved', priority: 'high', location: 'Road No. 5, Banjara Hills', createdAt: '2026-08-12T09:30:00', updatedAt: '2026-08-13T14:20:00', assignedTo: 'WK01', resolutionNote: 'Collection done. Route schedule adjusted.' },
-    { id: 'C002', citizenId: 'U002', ward: 'W02', category: 'overflowing_bin', title: 'Overflowing Public Bin near Market', desc: 'The public dustbin near Jubilee Hills market has been overflowing since morning. Waste is scattered on the footpath.', status: 'in_progress', priority: 'high', location: 'Jubilee Hills Market Junction', createdAt: '2026-08-14T07:15:00', updatedAt: '2026-08-14T10:45:00', assignedTo: 'WK02', resolutionNote: null },
-    { id: 'C003', citizenId: 'U003', ward: 'W03', category: 'illegal_dumping', title: 'Illegal Dumping at Construction Site', desc: 'Someone has dumped construction waste near the park. It includes broken tiles and rubble.', status: 'assigned', priority: 'medium', location: 'Near Cyber Heights, Madhapur', createdAt: '2026-08-14T08:45:00', updatedAt: '2026-08-14T09:30:00', assignedTo: 'WK03', resolutionNote: null },
-    { id: 'C004', citizenId: 'U001', ward: 'W01', category: 'damaged_bin', title: 'Damaged Public Bin', desc: 'The public waste bin on Park Road is broken. The lid is missing and the bin is leaning dangerously.', status: 'submitted', priority: 'low', location: 'Park Road, Banjara Hills', createdAt: '2026-08-14T11:20:00', updatedAt: '2026-08-14T11:20:00', assignedTo: null, resolutionNote: null },
-    { id: 'C005', citizenId: 'U002', ward: 'W07', category: 'uncollected_waste', title: 'Uncollected Waste Pile', desc: 'Large pile of waste near KPHB Colony main road. Has been there since 3 days.', status: 'in_progress', priority: 'high', location: 'KPHB Main Road, Kukatpally', createdAt: '2026-08-13T16:00:00', updatedAt: '2026-08-14T08:00:00', assignedTo: 'WK01', resolutionNote: null },
-    { id: 'C006', citizenId: 'U003', ward: 'W04', category: 'other', title: 'Medical Waste Dumped Near Footpath', desc: 'Used medical supplies including syringes found near the footpath. Very dangerous for children.', status: 'assigned', priority: 'urgent', location: 'Near IIIT Colony Gate, Gachibowli', createdAt: '2026-08-14T06:30:00', updatedAt: '2026-08-14T07:15:00', assignedTo: 'WK04', resolutionNote: null },
-    { id: 'C007', citizenId: 'U001', ward: 'W05', category: 'missed_collection', title: 'E-Waste not collected', desc: 'Dropped off old laptop and chargers at the collection point but nobody came for 3 days.', status: 'resolved', priority: 'medium', location: 'Kondapur E-Waste Point', createdAt: '2026-08-10T10:00:00', updatedAt: '2026-08-11T16:30:00', assignedTo: 'WK05', resolutionNote: 'E-waste collected and dispatched to registered recycler.' },
-    { id: 'C008', citizenId: 'U002', ward: 'W06', category: 'overflowing_bin', title: 'Garbage Truck Not Coming', desc: 'The garbage collection truck has not come to our street for 4 days. Very bad smell.', status: 'submitted', priority: 'high', location: 'Miyapur Phase-2, Sector 7', createdAt: '2026-08-14T12:00:00', updatedAt: '2026-08-14T12:00:00', assignedTo: null, resolutionNote: null },
+    { id: 'C001', citizenId: 'U001', ward: 'W01', category: 'missed_collection', title: 'Missed Collection - Road No. 5', desc: 'Garbage collection was not done in our street for the past 2 days. The bin is overflowing.', status: 'resolved', priority: 'HIGH', location: 'Road No. 5, Banjara Hills', createdAt: '2026-08-12T09:30:00', updatedAt: '2026-08-13T14:20:00', assignedTo: 'WK01', resolutionNote: 'Collection done. Route schedule adjusted.', aiCategory: 'missed_collection', aiPriority: 'HIGH', aiDepartment: 'Collection Fleet Operations', aiSummary: 'Collection missed for 2 consecutive days causing bin overflow.', aiConfidence: 96 },
+    { id: 'C002', citizenId: 'U002', ward: 'W02', category: 'overflowing_bin', title: 'Overflowing Public Bin near Market', desc: 'The public dustbin near Jubilee Hills market has been overflowing since morning. Waste is scattered on the footpath.', status: 'in_progress', priority: 'HIGH', location: 'Jubilee Hills Market Junction', createdAt: '2026-08-14T07:15:00', updatedAt: '2026-08-14T10:45:00', assignedTo: 'WK02', resolutionNote: null, aiCategory: 'overflowing_bin', aiPriority: 'HIGH', aiDepartment: 'Sanitation Rapid Response', aiSummary: 'Public dustbin overflowing in commercial market zone with sidewalk spillage.', aiConfidence: 95 },
+    { id: 'C003', citizenId: 'U003', ward: 'W03', category: 'illegal_dumping', title: 'Illegal Dumping at Construction Site', desc: 'Someone has dumped construction waste near the park. It includes broken tiles and rubble.', status: 'assigned', priority: 'HIGH', location: 'Near Cyber Heights, Madhapur', createdAt: '2026-08-14T08:45:00', updatedAt: '2026-08-14T09:30:00', assignedTo: 'WK03', resolutionNote: null, aiCategory: 'illegal_dumping', aiPriority: 'HIGH', aiDepartment: 'Environmental Enforcement & Vigilance', aiSummary: 'Suspected C&D waste dumped illegally adjacent to municipal park.', aiConfidence: 94 },
+    { id: 'C004', citizenId: 'U001', ward: 'W01', category: 'damaged_bin', title: 'Damaged Public Bin', desc: 'The public waste bin on Park Road is broken. The lid is missing and the bin is leaning dangerously.', status: 'submitted', priority: 'LOW', location: 'Park Road, Banjara Hills', createdAt: '2026-08-14T11:20:00', updatedAt: '2026-08-14T11:20:00', assignedTo: null, resolutionNote: null, aiCategory: 'damaged_bin', aiPriority: 'LOW', aiDepartment: 'Civic Asset Maintenance', aiSummary: 'Public bin structural damage and missing lid reported.', aiConfidence: 89 },
+    { id: 'C005', citizenId: 'U002', ward: 'W07', category: 'uncollected_waste', title: 'Uncollected Waste Pile', desc: 'Large pile of waste near KPHB Colony main road. Has been there since 3 days.', status: 'in_progress', priority: 'HIGH', location: 'KPHB Main Road, Kukatpally', createdAt: '2026-08-13T16:00:00', updatedAt: '2026-08-14T08:00:00', assignedTo: 'WK01', resolutionNote: null, aiCategory: 'uncollected_waste', aiPriority: 'HIGH', aiDepartment: 'Collection Fleet Operations', aiSummary: 'Accumulated waste pile obstructing pedestrian transit for 72+ hours.', aiConfidence: 93 },
+    { id: 'C006', citizenId: 'U003', ward: 'W04', category: 'other', title: 'Medical Waste Dumped Near Footpath', desc: 'Used medical supplies including syringes found near the footpath. Very dangerous for children.', status: 'assigned', priority: 'CRITICAL', location: 'Near IIIT Colony Gate, Gachibowli', createdAt: '2026-08-14T06:30:00', updatedAt: '2026-08-14T07:15:00', assignedTo: 'WK04', resolutionNote: null, aiCategory: 'hazardous_waste', aiPriority: 'CRITICAL', aiDepartment: 'Hazardous & Biomedical Rapid Action Squad', aiSummary: 'Urgent bio-hazard alert: Exposed syringes and medical sharps on public path.', aiConfidence: 98 },
+    { id: 'C007', citizenId: 'U001', ward: 'W05', category: 'missed_collection', title: 'E-Waste not collected', desc: 'Dropped off old laptop and chargers at the collection point but nobody came for 3 days.', status: 'resolved', priority: 'MEDIUM', location: 'Kondapur E-Waste Point', createdAt: '2026-08-10T10:00:00', updatedAt: '2026-08-11T16:30:00', assignedTo: 'WK05', resolutionNote: 'E-waste collected and dispatched to registered recycler.', aiCategory: 'ewaste', aiPriority: 'MEDIUM', aiDepartment: 'Collection Fleet Operations', aiSummary: 'E-waste pickup delayed at designated drop point.', aiConfidence: 92 },
+    { id: 'C008', citizenId: 'U002', ward: 'W06', category: 'overflowing_bin', title: 'Garbage Truck Not Coming', desc: 'The garbage collection truck has not come to our street for 4 days. Very bad smell.', status: 'submitted', priority: 'HIGH', location: 'Miyapur Phase-2, Sector 7', createdAt: '2026-08-14T12:00:00', updatedAt: '2026-08-14T12:00:00', assignedTo: null, resolutionNote: null, aiCategory: 'missed_collection', aiPriority: 'HIGH', aiDepartment: 'Collection Fleet Operations', aiSummary: 'Severe collection failure (4-day lapse) with bio-odor complaints.', aiConfidence: 97 },
+  ],
+
+  // ============================================================
+  // AI Suspected Illegal Dumping Alerts
+  // ============================================================
+  illegalDumpingAlerts: [
+    {
+      alertId: 'DA-8821',
+      isIllegalDumping: true,
+      confidence: 95.4,
+      severity: 'CRITICAL',
+      estimatedVolume: '3.8 m³ (~720 kg)',
+      detectedMaterials: ['Industrial Chemical Drums', 'Plastic Bags', 'Construction Rubble'],
+      location: 'Outer Ring Road, Near Gachibowli Flyover',
+      ward: 'W04',
+      lat: 17.4435,
+      lng: 78.3420,
+      timestamp: '2026-08-17T18:30:00',
+      alertStatus: 'Requires Authority Verification',
+      reportedBy: 'Worker Suresh Kumar (WK01)',
+      recommendedAction: 'Dispatch Environmental Vigilance Team & Issue Clearance Notice within 2 hours.'
+    },
+    {
+      alertId: 'DA-7392',
+      isIllegalDumping: true,
+      confidence: 91.8,
+      severity: 'HIGH',
+      estimatedVolume: '2.1 m³ (~400 kg)',
+      detectedMaterials: ['C&D Concrete Waste', 'Broken Tiles', 'Gypsum Boards'],
+      location: 'EM Bypass / Dhapa Buffer Zone, Kolkata',
+      ward: 'KMC Ward 63',
+      lat: 22.5490,
+      lng: 88.4080,
+      timestamp: '2026-08-17T19:15:00',
+      alertStatus: 'Requires Authority Verification',
+      reportedBy: 'Citizen Priya Sharma',
+      recommendedAction: 'Verify site boundary and penalize unauthorized disposal contractor.'
+    },
+    {
+      alertId: 'DA-6104',
+      isIllegalDumping: true,
+      confidence: 88.6,
+      severity: 'MEDIUM',
+      estimatedVolume: '1.2 m³ (~210 kg)',
+      detectedMaterials: ['Dry Garden Waste', 'Plastic Packaging'],
+      location: 'Road No. 12 Vacant Plot, Banjara Hills',
+      ward: 'W01',
+      lat: 17.4220,
+      lng: 78.4380,
+      timestamp: '2026-08-17T14:40:00',
+      alertStatus: 'Assigned for Inspection',
+      reportedBy: 'AI Public Sensor Stream',
+      recommendedAction: 'Clear vegetative debris to prevent fire hazard.'
+    }
   ],
 
   // ============================================================

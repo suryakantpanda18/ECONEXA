@@ -33,11 +33,20 @@ function renderAdminDashboard(container) {
     </div>
   `).join('');
 
+  const dumpingAlerts = data.illegalDumpingAlerts || [];
+
   container.innerHTML = `
     <div class="view-enter stagger-children">
-      <div class="alert alert-info mb-4 bg-blue-50 text-blue-800 p-3 rounded-lg flex items-center gap-2">
-        <span class="pulse-dot bg-blue-500 w-2 h-2 rounded-full inline-block"></span> 
-        <span>Demo Data — Last updated: just now | 8 wards monitored</span>
+      <!-- AI Intelligence Alert Bar -->
+      <div class="p-3.5 rounded-lg mb-4 flex items-center justify-between flex-wrap gap-2" style="background: linear-gradient(135deg, #14532d 0%, #166534 100%); color: #ffffff;">
+        <div class="flex items-center gap-2.5">
+          <span class="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse"></span>
+          <span class="font-bold text-sm">✨ EcoNexa AI Intelligence Active:</span>
+          <span class="text-xs text-green-100">7-Day ML Waste Forecast Ready • ${dumpingAlerts.length} Field Dumping Alerts Pending Verification</span>
+        </div>
+        <button class="btn btn-sm text-xs bg-white text-green-900 font-bold px-3 py-1 rounded shadow-sm hover:bg-green-50" onclick="EcoRouter.navigate('#admin-ai-predictions')">
+          View AI Forecast Radar →
+        </button>
       </div>
 
       <div class="section-header flex justify-between items-center mb-6">
